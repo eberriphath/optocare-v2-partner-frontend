@@ -1,13 +1,104 @@
-import {
-  NavLink,
-  useNavigate,
-} from "react-router-dom";
-
+import { NavLink } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
+function DashboardIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      className="h-5 w-5"
+    >
+      <rect x="3" y="3" width="7" height="7" rx="1" />
+      <rect x="14" y="3" width="7" height="7" rx="1" />
+      <rect x="3" y="14" width="7" height="7" rx="1" />
+      <rect x="14" y="14" width="7" height="7" rx="1" />
+    </svg>
+  );
+}
+
+function ServicesIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      className="h-5 w-5"
+    >
+      <path d="M12 3 4 7.5 12 12l8-4.5L12 3Z" />
+      <path d="m4 12 8 4.5 8-4.5" />
+      <path d="m4 16.5 8 4.5 8-4.5" />
+    </svg>
+  );
+}
+
+function ProductsIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      className="h-5 w-5"
+    >
+      <path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z" />
+      <path d="m4.5 7.5 7.5 4 7.5-4" />
+      <path d="M12 12v9" />
+    </svg>
+  );
+}
+
+function ProfileIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      className="h-5 w-5"
+    >
+      <circle cx="12" cy="8" r="3.5" />
+      <path d="M5 20c.8-3.5 3.2-5.5 7-5.5s6.2 2 7 5.5" />
+    </svg>
+  );
+}
+
+function PasswordIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      className="h-5 w-5"
+    >
+      <rect x="4" y="10" width="16" height="10" rx="2" />
+      <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+      <path d="M12 14v2" />
+    </svg>
+  );
+}
+
+function LogoutIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      className="h-5 w-5"
+    >
+      <path d="M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4" />
+      <path d="m14 8 4 4-4 4" />
+      <path d="M9 12h9" />
+    </svg>
+  );
+}
+
 function Sidebar() {
-  const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const navigation = [
     {
@@ -32,269 +123,118 @@ function Sidebar() {
     },
   ];
 
+  const getInitials = () => {
+    if (!user?.name) {
+      return "P";
+    }
+
+    return user.name
+      .split(" ")
+      .map((part) => part[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
+  };
+
   return (
     <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-slate-200 bg-white lg:flex">
-
-      {/* Logo */}
+      {/* Brand */}
       <div className="flex h-20 items-center border-b border-slate-200 px-6">
-
         <div>
-          <h1 className="text-xl font-bold tracking-tight text-slate-900">
+          <p className="text-xl font-bold tracking-tight text-slate-900">
             Optocare
-          </h1>
+          </p>
 
-          <p className="text-xs font-medium text-teal-700">
+          <p className="mt-0.5 text-xs font-medium text-slate-400">
             Partner Portal
           </p>
         </div>
-
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 space-y-1 px-4 py-6">
-
-        <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+      <nav className="flex-1 px-3 py-6">
+        <p className="mb-3 px-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
           Workspace
         </p>
 
-        {navigation.map((item) => {
-          const Icon = item.icon;
+        <div className="space-y-1">
+          {navigation.map((item) => {
+            const Icon = item.icon;
 
-          return (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) =>
-                [
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition",
-                  isActive
-                    ? "bg-teal-50 text-teal-700"
-                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
-                ].join(" ")
-              }
-            >
-              <Icon />
+            return (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) =>
+                  [
+                    "group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-150",
+                    isActive
+                      ? "bg-slate-900 text-white shadow-sm"
+                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
+                  ].join(" ")
+                }
+              >
+                <Icon />
 
-              <span>
-                {item.name}
-              </span>
-            </NavLink>
-          );
-        })}
-
+                <span>{item.name}</span>
+              </NavLink>
+            );
+          })}
+        </div>
       </nav>
 
-      {/* Bottom */}
-      <div className="border-t border-slate-200 p-4">
+      {/* Account area */}
+      <div className="border-t border-slate-200 p-3">
+        <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
+          Account
+        </p>
 
         <NavLink
           to="/change-password"
           className={({ isActive }) =>
             [
-              "mb-1 flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition",
+              "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-150",
               isActive
-                ? "bg-teal-50 text-teal-700"
-                : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
+                ? "bg-slate-900 text-white shadow-sm"
+                : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
             ].join(" ")
           }
         >
-          <LockIcon />
+          <PasswordIcon />
 
-          <span>
-            Change Password
-          </span>
+          <span>Change Password</span>
         </NavLink>
 
-        <button
-          type="button"
-          onClick={logout}
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-red-50 hover:text-red-700"
-        >
-          <LogoutIcon />
+        {/* User */}
+        <div className="mt-3 border-t border-slate-100 pt-3">
+          <div className="flex items-center gap-3 px-3 py-2">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white">
+              {getInitials()}
+            </div>
 
-          <span>
-            Logout
-          </span>
-        </button>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-semibold text-slate-900">
+                {user?.name || "Partner"}
+              </p>
 
+              <p className="truncate text-xs text-slate-400">
+                {user?.email || "Partner account"}
+              </p>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={logout}
+            className="mt-1 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-red-50 hover:text-red-600"
+          >
+            <LogoutIcon />
+
+            <span>Logout</span>
+          </button>
+        </div>
       </div>
-
     </aside>
-  );
-}
-
-
-/* Icons */
-
-function DashboardIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      className="h-5 w-5"
-    >
-      <rect
-        x="3"
-        y="3"
-        width="7"
-        height="7"
-        rx="1"
-      />
-
-      <rect
-        x="14"
-        y="3"
-        width="7"
-        height="7"
-        rx="1"
-      />
-
-      <rect
-        x="3"
-        y="14"
-        width="7"
-        height="7"
-        rx="1"
-      />
-
-      <rect
-        x="14"
-        y="14"
-        width="7"
-        height="7"
-        rx="1"
-      />
-    </svg>
-  );
-}
-
-function ServicesIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      className="h-5 w-5"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M4 7h16M4 12h16M4 17h16"
-      />
-    </svg>
-  );
-}
-
-function ProductsIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      className="h-5 w-5"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="m4 7 8-4 8 4-8 4-8-4Z"
-      />
-
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="m4 12 8 4 8-4"
-      />
-
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="m4 17 8 4 8-4"
-      />
-    </svg>
-  );
-}
-
-function ProfileIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      className="h-5 w-5"
-    >
-      <circle
-        cx="12"
-        cy="8"
-        r="3"
-      />
-
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M5 20a7 7 0 0 1 14 0"
-      />
-    </svg>
-  );
-}
-
-function LockIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      className="h-5 w-5"
-    >
-      <rect
-        x="4"
-        y="10"
-        width="16"
-        height="11"
-        rx="2"
-      />
-
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M8 10V7a4 4 0 0 1 8 0v3"
-      />
-    </svg>
-  );
-}
-
-function LogoutIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      className="h-5 w-5"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M10 17l5-5-5-5"
-      />
-
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M15 12H3"
-      />
-
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M21 3v18"
-      />
-    </svg>
   );
 }
 

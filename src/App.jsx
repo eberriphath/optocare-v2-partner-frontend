@@ -18,6 +18,7 @@ import Profile from "./pages/Profile";
 import ChangePassword from "./pages/ChangePassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import ActivateAccount from "./pages/ActivateAccount";
 
 function App() {
   return (
@@ -42,6 +43,11 @@ function App() {
           <Route
             path="/reset-password"
             element={<ResetPassword />}
+          />
+
+          <Route
+            path="/activate"
+            element={<ActivateAccount />}
           />
 
 
